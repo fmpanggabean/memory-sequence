@@ -1,0 +1,16 @@
+{
+    "name": "MemorySequence.Gameplay",
+    "rootNamespace": "MemorySequence",
+    "references": [
+        "GUID:1c6d71e0e9b21244d8c2a3802725596f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
