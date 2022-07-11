@@ -36,7 +36,7 @@ namespace MemorySequence.Gameplay {
         }
 
         private void PlaySound() {
-            Debug.LogWarning("Not implemented function: PlaySound");
+            //Debug.LogWarning("Not implemented function: PlaySound");
         }
 
         private void PlayAnimation() {

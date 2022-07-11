@@ -14,7 +14,9 @@ namespace MemorySequence.Gameplay {
             Vector3 clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D hit2d = Physics2D.Raycast(clickPosition, Vector3.zero);
 
-            if (!hit2d.transform.GetComponent<SequenceButton>()) {
+            if (hit2d == false) {
+                return false;
+            } else if (hit2d.transform.GetComponent<SequenceButton>() == null) {
                 return false;
             } else if (hit2d.transform.GetComponent<SequenceButton>() != sequenceButton) {
                 return false;

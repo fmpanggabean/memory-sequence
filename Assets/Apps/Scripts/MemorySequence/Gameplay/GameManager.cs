@@ -11,54 +11,64 @@ namespace MemorySequence.Gameplay {
         public event Action onSequenceEndShowing;
 
         private SpawnManager spawnManager;
+        private Challenge challenge;
 
-        [SerializeField] private List<SequenceButton> sequenceButtonList;
-        [SerializeField] private List<int> sequenceChallenge;
-
-        private int difficulty;
 
         private void Awake() {
             spawnManager = FindObjectOfType<SpawnManager>();
 
-            sequenceButtonList = new List<SequenceButton>();
-            sequenceChallenge = new List<int>();
+            challenge = new Challenge();
         }
         private void Start() {
             Initialize();
-            StartGame();
+            StartChallenge();
         }
 
         private void OnEnable() {
             onSequenceStartShowing += DisableClick;
             onSequenceEndShowing += EnableClick;
+
+            challenge.onChallengeIsDone += StartChallenge;
         }
 
         private void OnDisable() {
             onSequenceStartShowing -= DisableClick;
             onSequenceEndShowing -= EnableClick;
+
+            challenge.onChallengeIsDone -= StartChallenge;
         }
 
         private void Initialize() {
-            sequenceButtonList = spawnManager.SpawnButtons(this);
+            challenge.sequenceButtonList = spawnManager.SpawnButtons(this);
+            MappingSequenceEvent();
 
             onGameInitialize?.Invoke();
         }
 
-        private void StartGame() {
-            difficulty = 1;
-            GenerateSequenceChallenge();
+        private void MappingSequenceEvent() {
+            foreach(SequenceButton sb in challenge.sequenceButtonList) {
+                sb.onClick += challenge.CompareInputToChallenge;
+            }
+        }
+
+        private void StartChallenge() {
+            challenge.GenerateSequenceChallenge();
+            Debug.LogFormat(
+                "\nChallenge started with difficulty of {0}." +
+                "\nGenerating {1} sequences"
+                , challenge.GetDifficulty(), challenge.GetSequenceChallengeCount());
 
             StartCoroutine( ShowSequenceChallenge() );
         }
 
         private void DisableClick() {
-            foreach(SequenceButton sb in sequenceButtonList) {
+            foreach(SequenceButton sb in challenge.sequenceButtonList) {
                 sb.DisableClick();
             }
         }
 
         private void EnableClick() {
-            foreach (SequenceButton sb in sequenceButtonList) {
+            foreach (SequenceButton sb in challenge.sequenceButtonList) {
                 sb.EnableClick();
             }
         }
@@ -66,26 +76,12 @@ namespace MemorySequence.Gameplay {
         public IEnumerator ShowSequenceChallenge() {
             onSequenceStartShowing?.Invoke();
 
-            foreach(int index in sequenceChallenge) {
-                sequenceButtonList[index].Present();
+            foreach(int index in challenge.sequencChallengee) {
+                challenge.sequenceButtonList[index].Present();
                 yield return new WaitForSeconds(1);
             }
 
             onSequenceEndShowing?.Invoke();
-        }
-
-        private void GenerateSequenceChallenge() {
-            for (int i=0; i<GetSequenceChallengeCount(); i++) {
-                sequenceChallenge.Add(GetRandomSequenceIndex());
-            }
-        }
-
-        private int GetRandomSequenceIndex() {
-            return UnityEngine.Random.Range(0, sequenceButtonList.Count);
-        }
-
-        private int GetSequenceChallengeCount() {
-            return 3 + (difficulty / 3);
         }
     }
 }
