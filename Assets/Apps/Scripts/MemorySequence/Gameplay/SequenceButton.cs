@@ -8,6 +8,7 @@ namespace MemorySequence.Gameplay {
 
         //component reference
         private Animation animationComponent;
+        private AudioSource audioSource;
 
         private ClickHandler clickHandler;
 
@@ -16,6 +17,7 @@ namespace MemorySequence.Gameplay {
         private void Awake() {
             clickHandler = new ClickHandler();
             animationComponent = GetComponent<Animation>();
+            audioSource = GetComponent<AudioSource>();
 
             isClickable = false;
         }
@@ -36,7 +38,11 @@ namespace MemorySequence.Gameplay {
         }
 
         private void PlaySound() {
-            //Debug.LogWarning("Not implemented function: PlaySound");
+            audioSource.Play();
+        }
+
+        public void SetAudio(AudioClip clip) {
+            audioSource.clip = clip;
         }
 
         private void PlayAnimation() {

@@ -1,5 +1,5 @@
 ﻿namespace MemorySequence.Gameplay {
-    internal interface IManager {
+    public interface IManager {
 
     }
 }

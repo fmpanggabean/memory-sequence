@@ -11,11 +11,13 @@ namespace MemorySequence.Gameplay {
         public event Action onSequenceEndShowing;
 
         private SpawnManager spawnManager;
-        private Challenge challenge;
+        private AudioManager audioManager;
+        public Challenge challenge;
 
 
         private void Awake() {
             spawnManager = FindObjectOfType<SpawnManager>();
+            audioManager = FindObjectOfType<AudioManager>();
 
             challenge = new Challenge();
         }
@@ -40,6 +42,8 @@ namespace MemorySequence.Gameplay {
 
         private void Initialize() {
             challenge.sequenceButtonList = spawnManager.SpawnButtons(this);
+            challenge.SetAudio(audioManager.audio);
+
             MappingSequenceEvent();
 
             onGameInitialize?.Invoke();
@@ -58,7 +62,7 @@ namespace MemorySequence.Gameplay {
                 "\nGenerating {1} sequences"
                 , challenge.GetDifficulty(), challenge.GetSequenceChallengeCount());
 
-            StartCoroutine( ShowSequenceChallenge() );
+            ShowSequenceChallenge();
         }
 
         private void DisableClick() {
@@ -73,12 +77,16 @@ namespace MemorySequence.Gameplay {
             }
         }
 
-        public IEnumerator ShowSequenceChallenge() {
+        public void ShowSequenceChallenge() {
+            StartCoroutine(SequenceEnumerator());
+        }
+
+        public IEnumerator SequenceEnumerator() {
             onSequenceStartShowing?.Invoke();
 
             foreach(int index in challenge.sequencChallengee) {
                 challenge.sequenceButtonList[index].Present();
-                yield return new WaitForSeconds(1);
+                yield return new WaitForSeconds(1.4f);
             }
 
             onSequenceEndShowing?.Invoke();

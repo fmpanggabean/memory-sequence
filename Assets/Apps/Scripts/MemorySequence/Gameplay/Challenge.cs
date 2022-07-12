@@ -47,6 +47,12 @@ namespace MemorySequence.Gameplay {
             }
         }
 
+        internal void SetAudio(List<AudioClip> clips) {
+            for (int i=0; i<sequenceButtonList.Count; i++) {
+                sequenceButtonList[i].SetAudio(clips[i]);
+            }
+        }
+
         private bool IsChallengeDone() {
             return challengeIndex >= GetSequenceChallengeCount();
         }
