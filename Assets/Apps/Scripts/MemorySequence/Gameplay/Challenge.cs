@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace MemorySequence.Gameplay {
     public class Challenge {
-        public event Action onAnswerWrong;
-        public event Action onChallengeIsDone;
+        public event Action OnAnswerWrong;
+        public event Action OnChallengeIsDone;
 
         public List<int> sequencChallengee;
         public List<SequenceButton> sequenceButtonList;
@@ -36,14 +36,14 @@ namespace MemorySequence.Gameplay {
                 challengeIndex++;
                 if (IsChallengeDone()) {
                     difficulty++;
-                    onChallengeIsDone?.Invoke();
+                    OnChallengeIsDone?.Invoke();
                 }
             } 
             //jawaban salah
             else {
                 Debug.Log("jawaban salah!");
                 challengeIndex = 0;
-                onAnswerWrong?.Invoke();
+                OnAnswerWrong?.Invoke();
             }
         }
 

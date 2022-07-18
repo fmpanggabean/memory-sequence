@@ -14,6 +14,9 @@ namespace MemorySequence.Gameplay.UI
 
 
         private void Start() {
+            gameManager.challenge.OnAnswerWrong += ShowWrongAnswer;
+            gameManager.challenge.OnChallengeIsDone += ShowRightAnswer;
+
             narrationContainer.SetActive(false);
         }
         public void ShowWrongAnswer() {

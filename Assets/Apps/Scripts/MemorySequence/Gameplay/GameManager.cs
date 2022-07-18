@@ -7,8 +7,8 @@ namespace MemorySequence.Gameplay {
     public class GameManager : MonoBehaviour, IManager {
         //actions
         public event Action onGameInitialize;
-        public event Action onSequenceStartShowing;
-        public event Action onSequenceEndShowing;
+        public event Action OnSequenceStartShowing;
+        public event Action OnSequenceEndShowing;
 
         private SpawnManager spawnManager;
         private AudioManager audioManager;
@@ -27,17 +27,17 @@ namespace MemorySequence.Gameplay {
         }
 
         private void OnEnable() {
-            onSequenceStartShowing += DisableClick;
-            onSequenceEndShowing += EnableClick;
+            OnSequenceStartShowing += DisableClick;
+            OnSequenceEndShowing += EnableClick;
 
-            challenge.onChallengeIsDone += StartChallenge;
+            challenge.OnChallengeIsDone += StartChallenge;
         }
 
         private void OnDisable() {
-            onSequenceStartShowing -= DisableClick;
-            onSequenceEndShowing -= EnableClick;
+            OnSequenceStartShowing -= DisableClick;
+            OnSequenceEndShowing -= EnableClick;
 
-            challenge.onChallengeIsDone -= StartChallenge;
+            challenge.OnChallengeIsDone -= StartChallenge;
         }
 
         private void Initialize() {
@@ -82,14 +82,14 @@ namespace MemorySequence.Gameplay {
         }
 
         public IEnumerator SequenceEnumerator() {
-            onSequenceStartShowing?.Invoke();
+            OnSequenceStartShowing?.Invoke();
 
             foreach(int index in challenge.sequencChallengee) {
                 challenge.sequenceButtonList[index].Present();
                 yield return new WaitForSeconds(1.4f);
             }
 
-            onSequenceEndShowing?.Invoke();
+            OnSequenceEndShowing?.Invoke();
         }
     }
 }

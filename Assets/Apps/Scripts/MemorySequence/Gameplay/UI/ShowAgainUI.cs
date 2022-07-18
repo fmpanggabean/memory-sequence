@@ -11,8 +11,14 @@ namespace MemorySequence.Gameplay.UI
         private Button showAgainButton;
 
 
-        private void Awake() {
+        private new void Awake() {
+            base.Awake();
             showAgainButton = GetComponent<Button>();
+        }
+        private void Start() {
+            gameManager.OnSequenceStartShowing += DisableButton;
+            gameManager.OnSequenceEndShowing += EnableButton;
+            showAgainButton.onClick.AddListener(gameManager.ShowSequenceChallenge);
         }
 
         internal void RegisterEventClick(Action action) {
